@@ -32,18 +32,17 @@ public class Chat extends javax.swing.JFrame {
     static DefaultListModel modelolista;
 
     public Chat() {
-
         modelolista = new DefaultListModel();
         initComponents();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-
         String ip_puerto_nombre[] = getIP_Puerto_Nombre();
         String ip = ip_puerto_nombre[0];
         String puerto = ip_puerto_nombre[1];
         String nombre = ip_puerto_nombre[2];
-        usuario = new Usuario(this, ip, Integer.valueOf(puerto), nombre);
+        Mensajeria m = new Mensajeria();
+        usuario = new Usuario(this, ip, Integer.valueOf(puerto), nombre, m);
         //addlista("");
         jLabel2.setText("Conectado: " + Usuario.identificador);
         System.out.println("ussss: " + Usuario.identificador);
@@ -54,6 +53,7 @@ public class Chat extends javax.swing.JFrame {
             }
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,10 +90,11 @@ public class Chat extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CHAT-Principal");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("Usuarios Conectados:");
 
-        jList1.setBackground(new java.awt.Color(240, 240, 240));
+        jList1.setBackground(new java.awt.Color(204, 204, 204));
         jList1.setVisibleRowCount(10);
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -128,6 +129,11 @@ public class Chat extends javax.swing.JFrame {
         jMenu1.add(jMenuItem5);
 
         jMenuItem6.setText("Cerrar Sesión");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
@@ -190,7 +196,7 @@ public class Chat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-          close();
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -244,6 +250,10 @@ public class Chat extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        close();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -299,7 +309,7 @@ public class Chat extends javax.swing.JFrame {
      * comunicación con el servidor.
      */
     private final Usuario usuario;
-    
+
     private String[] getIP_Puerto_Nombre() {
         String s[] = new String[3];
         s[0] = DEFAULT_IP;
@@ -329,6 +339,7 @@ public class Chat extends javax.swing.JFrame {
         }
         return s;
     }
+
     private void close() {
         if (JOptionPane.showConfirmDialog(rootPane, "¿Desea realmente salir del chat?",
                 "Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -338,10 +349,12 @@ public class Chat extends javax.swing.JFrame {
             me.dispose();
         }
     }
+
     public void addlista(String con) {
         modelolista.addElement(con);
         jList1.setModel(modelolista);
     }
+
     void eliminarContacto(String identificador) {
         for (int i = 0; i < modelolista.getSize(); i++) {
             if (modelolista.getElementAt(i).toString().equals(identificador)) {

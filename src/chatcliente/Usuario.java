@@ -51,13 +51,17 @@ public class Usuario extends Thread {
      * conexiones de los diversos clientes.
      */
     private final int puerto;
+    
+       
+    private final Mensajeria m;
 
-    public Usuario(Chat chat, String host, Integer puerto, String nombre) {
+    public Usuario(Chat chat, String host, Integer puerto, String nombre, Mensajeria m) {
         this.chat = chat;
         this.host = host;
         this.puerto = puerto;
         this.identificador = nombre;
         escuchando = true;
+        this.m = m;
         this.start();
     }
     /**
@@ -168,9 +172,7 @@ public class Usuario extends Thread {
                 identificador = lista.get(1);
                 // chat.sesionIniciada(identificador);
                 for (int i = 2; i < lista.size(); i++) {
-                   
                     chat.addlista(lista.get(i));
-                    System.out.println("j" + lista.get(i));
                 }
                 break;
             case "NUEVO_USUARIO_CONECTADO":
@@ -190,7 +192,7 @@ public class Usuario extends Thread {
                 // 2      - Cliente receptor
                 // 3      - Mensaje
 
-                Mensajeria.addMensaje(lista.get(1), lista.get(2), lista.get(3));
+            this.m.addMensaje(lista.get(1), lista.get(2), lista.get(3));
                 break;
             default:
                 break;

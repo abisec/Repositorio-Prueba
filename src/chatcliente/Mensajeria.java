@@ -112,9 +112,8 @@ public class Mensajeria extends javax.swing.JFrame {
 
         }
     }
-    static void addMensaje(String emisor, String receptor, String mensaje) {
-        System.out.println("eppapapapapa:" + clientereceptor);
-        jTextArea1.append("" + emisor + " te ha enviado un mensaje : \n" + mensaje + "\n");
+    static void addMensaje(String emisor, String receptor, String mensaje){
+        jTextArea1.append("" + emisor +" te ha enviado un mensaje : \n" + mensaje + "\n");
     }
     /**
      * @param args the command line arguments
